@@ -48,8 +48,6 @@ pipeline {
                 GIT_REPO_NAME = "spring-boot-app"
                 GIT_USER_NAME = "Mubbaseer-Makrod"
             }
-
-            stage('Commit and Push') {
             steps {
                 // Configure Git user information
                 sh 'git config user.email "mubbaseermakrod567@gmail.com"'
@@ -64,7 +62,6 @@ pipeline {
                     sh "git push https://${USERNAME}:${PASSWORD}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git HEAD:main"
                 }
             }
-        }
         }
     }
 }
