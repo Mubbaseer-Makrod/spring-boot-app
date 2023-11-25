@@ -6,6 +6,10 @@ pipeline {
     }
   }
   stages {
+    stage('CleanWs') {
+      steps {
+        cleanWs()
+      }
     stage('Checkout') {
       steps {
         echo "Workspace Path: ${WORKSPACE}"
@@ -71,10 +75,7 @@ pipeline {
     //         }
     //     }
     // }
-    stage('CleanWs') {
-      steps {
-        cleanWs()
-      }
+    
     }
   }
 }
