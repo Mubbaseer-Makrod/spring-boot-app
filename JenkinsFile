@@ -16,7 +16,7 @@ pipeline {
     }
     stage('Build and Test') {
       steps {
-        sh 'ls -ltr'
+        sh 'pwd && ls -ltr'
         // build the project and create a JAR file
         withMaven {
             sh 'cd spring-boot-app && mvn clean package'
