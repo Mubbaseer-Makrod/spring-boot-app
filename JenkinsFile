@@ -7,16 +7,8 @@ pipeline {
   }
   stages {
     stage('Checkout') {
-            steps {
-                cleanWs()
-                script {
-                    // Your git checkout step here
-                    checkout scm
-                }
-            }
-    }
-    stage('Checkout') {
       steps {
+        cleanWs()
         sh 'echo passed'
         git branch: 'main', credentialsId: 'Github-Credentials', url: 'https://github.com/Mubbaseer-Makrod/spring-boot-app'
       }
