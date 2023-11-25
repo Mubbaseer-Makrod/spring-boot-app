@@ -27,9 +27,13 @@ pipeline {
         SONAR_URL = "https://23.23.61.22:9000"
       }
       steps {
-        withCredentials([string(credentialsId: 'Sonarqube-Credentials', variable: 'SONAR_AUTH_TOKEN')]) {
-          sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+        withSonarQubeEnv(credentialsId: 'Sonarqube-Credentials', installationName: 'My SonarQube Server') { 
+            // You can override the credential to be used
+            sh 'mvn sonar:sonar -Dsonar.login=$Sonarqube-Credentials -Dsonar.host.url=${SONAR_URL}'
         }
+        //withCredentials([string(credentialsId: 'Sonarqube-Credentials', variable: 'SONAR_AUTH_TOKEN')]) {
+          //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+        //}
       }
     }
     // stage('Build and Push Docker Image') {
