@@ -5,8 +5,8 @@ pipeline {
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
-  stage {
-    stage('CleanWs') {
+  stages {
+    stage('Clean Workplace') {
       steps {
         cleanWs()
       }
@@ -27,20 +27,15 @@ pipeline {
         }
       }
     }
-    stage('Static Code Analysis') {
-      environment {
-        SONAR_URL = "https://23.23.61.22:9000"
-      }
-      steps {
-        withSonarQubeEnv(credentialsId: 'Sonarqube-Credentials', installationName: 'My SonarQube Server') { 
-            // You can override the credential to be used
-            sh 'mvn sonar:sonar -Dsonar.login=$Sonarqube-Credentials -Dsonar.host.url=${SONAR_URL}'
-        }
-        //withCredentials([string(credentialsId: 'Sonarqube-Credentials', variable: 'SONAR_AUTH_TOKEN')]) {
-          //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
-        //}
-      }
-    }
+    stage("SonarQube Analysis") {
+			steps {
+				script {
+					withSonarQubeEnv(credentialsId: 'Jenkins-Sonarqube-Token') {
+						sh 'mvn sonar:sonar'
+					}
+				}
+			}
+		}
     // stage('Build and Push Docker Image') {
     //   environment {
     //     DOCKER_IMAGE = "abhishekf5/ultimate-cicd:${BUILD_NUMBER}"
