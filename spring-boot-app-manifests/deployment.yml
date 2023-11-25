@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: spring-boot-app
-        image: mubbaseer/ultimate-cicd:replaceImageTag
+        image: mubbaseer/ultimate-cicd:66
         ports:
         - containerPort: 8080
