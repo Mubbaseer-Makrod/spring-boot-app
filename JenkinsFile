@@ -6,29 +6,36 @@ pipeline {
     }
   }
   stages {
+    stage('Clean Workplace') {
+      steps {
+        cleanWs()
+      }
+    }
     stage('Checkout') {
       steps {
+        echo "Workspace Path: ${WORKSPACE}"
         sh 'echo passed'
         git branch: 'main', credentialsId: 'Github-Credentials', url: 'https://github.com/Mubbaseer-Makrod/spring-boot-app'
       }
     }
     stage('Build and Test') {
       steps {
-        sh 'ls -ltr'
+        sh 'pwd && ls -ltr'
         // build the project and create a JAR file
-        sh 'mvn clean package'
-      }
-    }
-    stage('Static Code Analysis') {
-      environment {
-        SONAR_URL = "http://18.209.180.53:9000"
-      }
-      steps {
-        withCredentials([string(credentialsId: 'Sonarqube-Credentials', variable: 'SONAR_AUTH_TOKEN')]) {
-          sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+        withMaven {
+            sh 'mvn clean package'
         }
       }
     }
+    stage("SonarQube Analysis") {
+			steps {
+				script {
+					withSonarQubeEnv(credentialsId: 'Sonarqube-Credentials') {
+						sh 'mvn sonar:sonar'
+					}
+				}
+			}
+		}
     // stage('Build and Push Docker Image') {
     //   environment {
     //     DOCKER_IMAGE = "abhishekf5/ultimate-cicd:${BUILD_NUMBER}"
