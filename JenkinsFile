@@ -9,7 +9,6 @@ pipeline {
     stage('Checkout') {
       steps {
         echo "Workspace Path: ${WORKSPACE}"
-        cleanWs()
         sh 'echo passed'
         git branch: 'main', credentialsId: 'Github-Credentials', url: 'https://github.com/Mubbaseer-Makrod/spring-boot-app'
       }
@@ -68,5 +67,10 @@ pipeline {
     //         }
     //     }
     // }
+    stage('CleanWs') {
+      steps {
+        cleanWs()
+      }
+    }
   }
 }
