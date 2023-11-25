@@ -49,7 +49,7 @@ pipeline {
                 GIT_USER_NAME = "Mubbaseer-Makrod"
             }
             steps {
-                withCredentials([string(credentialsId: 'Github-Credentials', variable: 'GITHUB_TOKEN')]) {
+                git branch: 'main', credentialsId: 'Github-Credentials', url: 'https://github.com/Mubbaseer-Makrod/spring-boot-app' {
                     sh '''
                         git config user.email "mubbaseermakrod567@gmail.com"
                         git config user.name "Mubbaseer Makrod"
